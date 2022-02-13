@@ -1,2 +1,7 @@
 # Changelog
 
+## [0.1.0] - 2022-02-13
+
+### Added
+- funtions to request and set thread-bindings
+
