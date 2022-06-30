@@ -44,12 +44,12 @@ BindThreadToCore::BindThreadToCore()
                        true,
                        "Thread-type-name of the threads, which should be bound to the core.");
     assert(addFieldBorder("thread_name", 4, 256));
-    assert(addFieldRegex("thread_name", "[a-zA-Z][a-zA-Z_0-9]*"));
+    assert(addFieldRegex("thread_name", "[a-zA-Z][a-zA-Z_0-9\\-]*"));
 
-    registerInputField("core_id",
-                       Sakura::SAKURA_INT_TYPE,
+    registerInputField("core_ids",
+                       Sakura::SAKURA_ARRAY_TYPE,
                        true,
-                       "Core-id to bind to.");
+                       "Core-ids to bind to.");
 
     //----------------------------------------------------------------------------------------------
     //
@@ -66,7 +66,13 @@ BindThreadToCore::runTask(Sakura::BlossomLeaf &blossomLeaf,
                           ErrorContainer &error)
 {
     const std::string threadName = blossomLeaf.input.get("thread_name").getString();
-    const long coreId = blossomLeaf.input.get("core_id").getLong();
+    const DataArray* coreIdsArray = blossomLeaf.input.get("core_ids").getItemContent()->toArray();
+
+    // convert core-ids
+    std::vector<uint64_t> coreIds;
+    for(uint64_t i = 0; i < coreIdsArray->size(); i++) {
+        coreIds.push_back(coreIdsArray->get(i)->toValue()->getLong());
+    }
 
     ThreadHandler* threadHandler = ThreadHandler::getInstance();
 
@@ -80,13 +86,13 @@ BindThreadToCore::runTask(Sakura::BlossomLeaf &blossomLeaf,
         return false;
     }
 
-    // bind threads to core-id
+    // bind threads to core-ids
     for(Thread* thread : threads)
     {
-        if(thread->bindThreadToCore(coreId) == false)
+        if(thread->bindThreadToCores(coreIds) == false)
         {
             status.statusCode = Hanami::BAD_REQUEST_RTYPE;
-            status.errorMessage = "Core-id '" + std::to_string(coreId) + "' is out of range.";
+            status.errorMessage = "Core-id '" + coreIdsArray->toString() + "' is out of range.";
             error.addMeesage(status.errorMessage);
             return false;
         }
