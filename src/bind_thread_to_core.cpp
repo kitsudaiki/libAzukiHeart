@@ -43,7 +43,7 @@ BindThreadToCore::BindThreadToCore()
                        Sakura::SAKURA_STRING_TYPE,
                        true,
                        "Thread-type-name of the threads, which should be bound to the core.");
-    assert(addFieldBorder("thread_name", 4, 256));
+    assert(addFieldBorder("thread_name", 3, 256));
     assert(addFieldRegex("thread_name", "[a-zA-Z][a-zA-Z_0-9\\-]*"));
 
     registerInputField("core_ids",
