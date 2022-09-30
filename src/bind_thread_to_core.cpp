@@ -60,13 +60,13 @@ BindThreadToCore::BindThreadToCore()
  * @brief runTask
  */
 bool
-BindThreadToCore::runTask(Sakura::BlossomLeaf &blossomLeaf,
+BindThreadToCore::runTask(Sakura::BlossomIO &blossomIO,
                           const DataMap &,
                           Sakura::BlossomStatus &status,
                           ErrorContainer &error)
 {
-    const std::string threadName = blossomLeaf.input.get("thread_name").getString();
-    const DataArray* coreIdsArray = blossomLeaf.input.get("core_ids").getItemContent()->toArray();
+    const std::string threadName = blossomIO.input.get("thread_name").getString();
+    const DataArray* coreIdsArray = blossomIO.input.get("core_ids").getItemContent()->toArray();
 
     // convert core-ids
     std::vector<uint64_t> coreIds;
