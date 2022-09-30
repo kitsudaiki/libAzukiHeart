@@ -50,7 +50,7 @@ GetThreadMapping::GetThreadMapping()
  * @brief runTask
  */
 bool
-GetThreadMapping::runTask(Sakura::BlossomLeaf &blossomLeaf,
+GetThreadMapping::runTask(Sakura::BlossomIO &blossomIO,
                           const DataMap &,
                           Sakura::BlossomStatus &,
                           ErrorContainer &)
@@ -77,7 +77,7 @@ GetThreadMapping::runTask(Sakura::BlossomLeaf &blossomLeaf,
         result->insert(name, threadArray);
     }
 
-    blossomLeaf.output.insert("thread_map", result);
+    blossomIO.output.insert("thread_map", result);
 
     return true;
 }
