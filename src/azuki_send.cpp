@@ -21,8 +21,41 @@
  */
 
 #include <libAzukiHeart/azuki_send.h>
+#include <libAzukiHeart/azuki_messages.h>
+
+#include <libKitsunemimiHanamiCommon/component_support.h>
+#include <libKitsunemimiHanamiCommon/structs.h>
+#include <libKitsunemimiHanamiNetwork/hanami_messaging.h>
+#include <libKitsunemimiHanamiNetwork/hanami_messaging_client.h>
+
+using Kitsunemimi::Hanami::HanamiMessaging;
+using Kitsunemimi::Hanami::HanamiMessagingClient;
+using Kitsunemimi::Hanami::SupportedComponents;
 
 namespace Azuki
 {
+
+/**
+ * @brief sendSetCpuSpeedMessage
+ * @param speedState
+ */
+void
+sendSetCpuSpeedMessage(const SpeedState speedState)
+{
+    // create message
+    Kitsunemimi::ErrorContainer error;
+    HanamiMessagingClient* client = HanamiMessaging::getInstance()->azukiClient;
+    if(client == nullptr) {
+        return;
+    }
+
+    SetCpuSpeed_Message msg;
+    msg.speedState = speedState;
+    uint8_t buffer[96*1024];
+    const uint64_t size = msg.createBlob(buffer, 96*1024);
+
+    // send
+    client->sendGenericMessage(buffer, size, error);
+}
 
 }

@@ -78,10 +78,12 @@ INCLUDEPATH += $$PWD \
 HEADERS += \
     ../include/libAzukiHeart/azuki_send.h \
     ../include/libAzukiHeart/azuki_input.h \
+    ../include/libAzukiHeart/azuki_messages.h \
     bind_thread_to_core.h \
     get_thread_mapping.h
 
 SOURCES += \
+    azuki_message.cpp \
     azuki_send.cpp \
     azuki_input.cpp \
     bind_thread_to_core.cpp \
