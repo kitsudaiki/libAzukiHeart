@@ -30,6 +30,14 @@
 namespace Azuki
 {
 
+enum SpeedState {
+    MINIMUM_SPEED = 0,
+    AUTOMATIC_SPEED = 1,
+    MAXIMUM_SPEED = 2,
+};
+
+void sendSetCpuSpeedMessage(const SpeedState speedState);
+
 }
 
 #endif // KITSUNEMIMI_HANAMI_AZUKI_SEND_H
