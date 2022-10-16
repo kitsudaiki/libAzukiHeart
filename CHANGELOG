@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0] - 2022-10-16
+
+### Added
+- functions to trigger change of cpu-frequency in Azuki
+
+### Changed
+- renamings coming from other libraries
+
+
 ## [0.2.0] - 2022-07-02
 
 ### Added
