@@ -30,13 +30,9 @@
 namespace Azuki
 {
 
-enum SpeedState {
-    MINIMUM_SPEED = 0,
-    AUTOMATIC_SPEED = 1,
-    MAXIMUM_SPEED = 2,
-};
-
-void sendSetCpuSpeedMessage(const SpeedState speedState);
+bool setSpeedToMinimum(Kitsunemimi::ErrorContainer &error);
+bool setSpeedToAutomatic(Kitsunemimi::ErrorContainer &error);
+bool setSpeedToMaximum(Kitsunemimi::ErrorContainer &error);
 
 }
 

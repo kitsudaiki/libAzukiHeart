@@ -78,13 +78,30 @@ INCLUDEPATH += $$PWD \
 HEADERS += \
     ../include/libAzukiHeart/azuki_send.h \
     ../include/libAzukiHeart/azuki_input.h \
-    ../include/libAzukiHeart/azuki_messages.h \
     bind_thread_to_core.h \
     get_thread_mapping.h
 
 SOURCES += \
-    azuki_message.cpp \
     azuki_send.cpp \
     azuki_input.cpp \
     bind_thread_to_core.cpp \
     get_thread_mapping.cpp
+
+AZUKI_PROTO_BUFFER = ../../libKitsunemimiHanamiMessages/protobuffers/azuki_messages.proto3
+
+OTHER_FILES += $$AZUKI_PROTO_BUFFER
+
+protobuf_decl.name = protobuf headers
+protobuf_decl.input = AZUKI_PROTO_BUFFER
+protobuf_decl.output = ${QMAKE_FILE_IN_PATH}/${QMAKE_FILE_BASE}.proto3.pb.h
+protobuf_decl.commands = protoc --cpp_out=${QMAKE_FILE_IN_PATH} --proto_path=${QMAKE_FILE_IN_PATH} ${QMAKE_FILE_NAME}
+protobuf_decl.variable_out = HEADERS
+QMAKE_EXTRA_COMPILERS += protobuf_decl
+
+protobuf_impl.name = protobuf sources
+protobuf_impl.input = AZUKI_PROTO_BUFFER
+protobuf_impl.output = ${QMAKE_FILE_IN_PATH}/${QMAKE_FILE_BASE}.proto3.pb.cc
+protobuf_impl.depends = ${QMAKE_FILE_IN_PATH}/${QMAKE_FILE_BASE}.proto3.pb.h
+protobuf_impl.commands = $$escape_expand(\n)
+protobuf_impl.variable_out = SOURCES
+QMAKE_EXTRA_COMPILERS += protobuf_impl

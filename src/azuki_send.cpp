@@ -21,12 +21,14 @@
  */
 
 #include <libAzukiHeart/azuki_send.h>
-#include <libAzukiHeart/azuki_messages.h>
 
 #include <libKitsunemimiHanamiCommon/component_support.h>
 #include <libKitsunemimiHanamiCommon/structs.h>
 #include <libKitsunemimiHanamiNetwork/hanami_messaging.h>
 #include <libKitsunemimiHanamiNetwork/hanami_messaging_client.h>
+
+#include <../../libKitsunemimiHanamiMessages/protobuffers/azuki_messages.proto3.pb.h>
+#include <../../libKitsunemimiHanamiMessages/message_sub_types.h>
 
 using Kitsunemimi::Hanami::HanamiMessaging;
 using Kitsunemimi::Hanami::HanamiMessagingClient;
@@ -36,26 +38,94 @@ namespace Azuki
 {
 
 /**
- * @brief sendSetCpuSpeedMessage
- * @param speedState
+ * @brief send speed-setter-message zu azuki
+ *
+ * @param client pointer to client, which is connected to azuki
+ * @param msg message to send
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
  */
-void
-sendSetCpuSpeedMessage(const SpeedState speedState)
+bool
+sendSpeedSetMesage(HanamiMessagingClient* client,
+                   const SetCpuSpeed_Message &msg,
+                   Kitsunemimi::ErrorContainer &error)
 {
-    // create message
-    Kitsunemimi::ErrorContainer error;
-    HanamiMessagingClient* client = HanamiMessaging::getInstance()->azukiClient;
-    if(client == nullptr) {
-        return;
+    uint8_t buffer[1024];
+    const uint64_t msgSize = msg.ByteSizeLong();
+    if(msg.SerializeToArray(buffer, msgSize) == false)
+    {
+        error.addMeesage("Failed to serialize speed-set-message for Azuki");
+        return false;
     }
 
-    SetCpuSpeed_Message msg;
-    msg.speedState = speedState;
-    uint8_t buffer[96*1024];
-    const uint64_t size = msg.createBlob(buffer, 96*1024);
+    return client->sendGenericMessage(AZUKI_SPEED_SET_MESSAGE_TYPE, buffer, msgSize, error);
+}
 
-    // send
-    client->sendGenericMessage(buffer, size, error);
+/**
+ * @brief send message to azuki to set cpu-speed to minimum
+ *
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+setSpeedToMinimum(Kitsunemimi::ErrorContainer &error)
+{
+    // get client
+    HanamiMessagingClient* client = HanamiMessaging::getInstance()->azukiClient;
+    if(client == nullptr) {
+        return false;
+    }
+
+    // send message
+    SetCpuSpeed_Message msg;
+    msg.set_type(SpeedState::MINIMUM_SPEED);
+    return sendSpeedSetMesage(client, msg, error);
+}
+
+/**
+ * @brief send message to azuki to set cpu-speed to automatic
+ *
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+setSpeedToAutomatic(Kitsunemimi::ErrorContainer &error)
+{
+    // get client
+    HanamiMessagingClient* client = HanamiMessaging::getInstance()->azukiClient;
+    if(client == nullptr) {
+        return false;
+    }
+
+    // send message
+    SetCpuSpeed_Message msg;
+    msg.set_type(SpeedState::AUTOMATIC_SPEED);
+    return sendSpeedSetMesage(client, msg, error);
+}
+
+/**
+ * @brief send message to azuki to set cpu-speed to maximum
+ *
+ * @param error reference for error-output
+ *
+ * @return true, if successful, else false
+ */
+bool
+setSpeedToMaximum(Kitsunemimi::ErrorContainer &error)
+{
+    // get client
+    HanamiMessagingClient* client = HanamiMessaging::getInstance()->azukiClient;
+    if(client == nullptr) {
+        return false;
+    }
+
+    // send message
+    SetCpuSpeed_Message msg;
+    msg.set_type(SpeedState::MAXIMUM_SPEED);
+    return sendSpeedSetMesage(client, msg, error);
 }
 
 }
