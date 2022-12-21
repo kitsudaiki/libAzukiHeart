@@ -31,14 +31,14 @@ namespace Azuki
 {
 
 GetThreadMapping::GetThreadMapping()
-    : Sakura::Blossom("Collect all thread-names with its acutal mapped core-id's")
+    : Hanami::Blossom("Collect all thread-names with its acutal mapped core-id's")
 {
     //----------------------------------------------------------------------------------------------
     // output
     //----------------------------------------------------------------------------------------------
 
     registerOutputField("thread_map",
-                        Sakura::SAKURA_MAP_TYPE,
+                        Hanami::SAKURA_MAP_TYPE,
                         "Map with all thread-names and its core-id as json-string.");
 
     //----------------------------------------------------------------------------------------------
@@ -50,9 +50,9 @@ GetThreadMapping::GetThreadMapping()
  * @brief runTask
  */
 bool
-GetThreadMapping::runTask(Sakura::BlossomIO &blossomIO,
+GetThreadMapping::runTask(Hanami::BlossomIO &blossomIO,
                           const DataMap &,
-                          Sakura::BlossomStatus &,
+                          Hanami::BlossomStatus &,
                           ErrorContainer &)
 {
     ThreadHandler* threadHandler = ThreadHandler::getInstance();

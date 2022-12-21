@@ -24,9 +24,7 @@
 #include <get_thread_mapping.h>
 #include <bind_thread_to_core.h>
 
-#include <libKitsunemimiSakuraLang/sakura_lang_interface.h>
-
-#include <libKitsunemimiHanamiEndpoints/endpoint.h>
+#include <libKitsunemimiHanamiNetwork/hanami_messaging.h>
 
 namespace Azuki
 {
@@ -39,9 +37,8 @@ bool
 initAzukiBlossoms()
 {
     // init predefined blossoms
-    Kitsunemimi::Sakura::SakuraLangInterface* interface =
-            Kitsunemimi::Sakura::SakuraLangInterface::getInstance();
-    Kitsunemimi::Hanami::Endpoint* endpoints = Kitsunemimi::Hanami::Endpoint::getInstance();
+    Kitsunemimi::Hanami::HanamiMessaging * interface =
+            Kitsunemimi::Hanami::HanamiMessaging::getInstance();
     const std::string group = "-";
 
     if(interface->addBlossom(group, "get_thread_mapping", new GetThreadMapping()) == false) {
@@ -49,7 +46,7 @@ initAzukiBlossoms()
     }
 
     // add new endpoints
-    if(endpoints->addEndpoint("v1/get_thread_mapping",
+    if(interface->addEndpoint("v1/get_thread_mapping",
                               Kitsunemimi::Hanami::GET_TYPE,
                               Kitsunemimi::Hanami::BLOSSOM_TYPE,
                               "-",
@@ -63,7 +60,7 @@ initAzukiBlossoms()
     }
 
     // add new endpoints
-    if(endpoints->addEndpoint("v1/bind_thread_to_core",
+    if(interface->addEndpoint("v1/bind_thread_to_core",
                               Kitsunemimi::Hanami::POST_TYPE,
                               Kitsunemimi::Hanami::BLOSSOM_TYPE,
                               "-",
