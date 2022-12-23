@@ -33,21 +33,21 @@ namespace Azuki
 {
 
 BindThreadToCore::BindThreadToCore()
-    : Sakura::Blossom("Bind threads of a specific thead-type-name to a specific core.")
+    : Hanami::Blossom("Bind threads of a specific thead-type-name to a specific core.")
 {
     //----------------------------------------------------------------------------------------------
     // input
     //----------------------------------------------------------------------------------------------
 
     registerInputField("thread_name",
-                       Sakura::SAKURA_STRING_TYPE,
+                       Hanami::SAKURA_STRING_TYPE,
                        true,
                        "Thread-type-name of the threads, which should be bound to the core.");
     assert(addFieldBorder("thread_name", 3, 256));
     assert(addFieldRegex("thread_name", "[a-zA-Z][a-zA-Z_0-9\\-]*"));
 
     registerInputField("core_ids",
-                       Sakura::SAKURA_ARRAY_TYPE,
+                       Hanami::SAKURA_ARRAY_TYPE,
                        true,
                        "Core-ids to bind to.");
 
@@ -60,9 +60,9 @@ BindThreadToCore::BindThreadToCore()
  * @brief runTask
  */
 bool
-BindThreadToCore::runTask(Sakura::BlossomIO &blossomIO,
+BindThreadToCore::runTask(Hanami::BlossomIO &blossomIO,
                           const DataMap &,
-                          Sakura::BlossomStatus &status,
+                          Hanami::BlossomStatus &status,
                           ErrorContainer &error)
 {
     const std::string threadName = blossomIO.input.get("thread_name").getString();

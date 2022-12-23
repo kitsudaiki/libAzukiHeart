@@ -23,21 +23,21 @@
 #ifndef KITSUNEMIMI_HANAMI_AZUKI_GETTHREADMAPPING_H
 #define KITSUNEMIMI_HANAMI_AZUKI_GETTHREADMAPPING_H
 
-#include <libKitsunemimiSakuraLang/blossom.h>
+#include <libKitsunemimiHanamiNetwork/blossom.h>
 
 namespace Azuki
 {
 
 class GetThreadMapping
-        : public Kitsunemimi::Sakura::Blossom
+        : public Kitsunemimi::Hanami::Blossom
 {
 public:
     GetThreadMapping();
 
 protected:
-    bool runTask(Kitsunemimi::Sakura::BlossomIO &blossomIO,
+    bool runTask(Kitsunemimi::Hanami::BlossomIO &blossomIO,
                  const Kitsunemimi::DataMap &,
-                 Kitsunemimi::Sakura::BlossomStatus &,
+                 Kitsunemimi::Hanami::BlossomStatus &,
                  Kitsunemimi::ErrorContainer &);
 };
 

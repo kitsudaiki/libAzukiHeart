@@ -23,21 +23,21 @@
 #ifndef KITSUNEMIMI_HANAMI_AZUKI_BINDTHREADTOCORE_H
 #define KITSUNEMIMI_HANAMI_AZUKI_BINDTHREADTOCORE_H
 
-#include <libKitsunemimiSakuraLang/blossom.h>
+#include <libKitsunemimiHanamiNetwork/blossom.h>
 
 namespace Azuki
 {
 
 class BindThreadToCore
-        : public Kitsunemimi::Sakura::Blossom
+        : public Kitsunemimi::Hanami::Blossom
 {
 public:
     BindThreadToCore();
 
 protected:
-    bool runTask(Kitsunemimi::Sakura::BlossomIO &blossomIO,
+    bool runTask(Kitsunemimi::Hanami::BlossomIO &blossomIO,
                  const Kitsunemimi::DataMap &,
-                 Kitsunemimi::Sakura::BlossomStatus &status,
+                 Kitsunemimi::Hanami::BlossomStatus &status,
                  Kitsunemimi::ErrorContainer &error);
 };
 
